@@ -106,7 +106,7 @@ header {
   font-weight: 700;
   line-height: 19.36px;
   border-radius: 16px;
-  background: url("./search.svg") no-repeat, #f4f4f4;
+  background: url("/search.svg") no-repeat, #f4f4f4;
   background-position-x: calc(100% - 24px);
   background-position-y: center;
   margin-top: 24px;
