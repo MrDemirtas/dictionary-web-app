@@ -1,29 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Dictionary from "./components/Dictionary";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 
-function App() {
+export default function App() {
   const [currentFontFmly, setFontFmly] = useState("sans-serif");
   const [currentWord, setCurrentWord] = useState("");
   const [currentWordData, setCurrentWordData] = useState(null);
   const [isNotFound, setNotFound] = useState(false);
   const [showRequired, setShowRequired] = useState(false);
 
-  
   useEffect(() => {
     if (currentWord.trim() === "") return;
     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${currentWord}`)
-      .then(res => {
+      .then(async (res) => {
         if (res.ok) {
-          return res.json()
-        }else{
-          return 404;
-        }
-      })
-      .then(response => {
-        if (response !== 404) {
+          const response = await res.json()
           setNotFound(false);
           setCurrentWordData(response[0]);
         }else{
@@ -55,14 +48,10 @@ function App() {
         />
         {showRequired && <p>Whoops, can’t be empty…</p>}
       </form>
-      {
-        isNotFound ? 
-          <NotFound />
-          :
-          currentWordData !== null && <Dictionary currentWordData={currentWordData} setCurrentWord={setCurrentWord} />
-      }
+      {isNotFound ? 
+        <NotFound />
+        :
+        currentWordData !== null && <Dictionary currentWordData={currentWordData} setCurrentWord={setCurrentWord} />}
     </div>
   );
 }
-
-export default App;
